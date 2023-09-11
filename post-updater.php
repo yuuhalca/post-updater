@@ -187,7 +187,7 @@ class Postupdater_admin
 
         // nonceで設定したcredentialのチェック 
         if (isset($_POST[self::CREDENTIAL_NAME]) && $_POST[self::CREDENTIAL_NAME]) {
-            if (check_admin_referer(self::CREDENTIAL_ACTION, self::CREDENTIAL_NAME) && $_POST["f-update"] != 1) {
+            if (check_admin_referer(self::CREDENTIAL_ACTION, self::CREDENTIAL_NAME) && !isset($_POST["f-update"])) {
 
                 // 保存処理
                 $key   = ["name", "price", "description", "reserve"];
