@@ -458,9 +458,10 @@ function MD_BlogDo()
         for ($i = 10; $i <= 37; $i++) { //スペック情報があるかどうかチェック
             if ($i != 17 && $value[$i] != "") {
                 $blank_chk = TRUE;
+                break;
             }
         }
-        if($blank_chk === TRUE) {
+        if($blank_chk !== FALSE) {
             $postcontent .= <<<EOT
             <tr>
                 <td colspan="2" style="text-align:center;font-weight:bold;background-color:lightgray">スペック</td>
