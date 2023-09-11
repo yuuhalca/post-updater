@@ -368,9 +368,6 @@ function MD_BlogDo()
         $postcontent .= "<p>" . $value[8] . "</p>";
         $postcontent .= <<<EOT
         <table>
-            <tr>
-                <td colspan="2" style="text-align:center;font-weight:bold;background-color:lightgray">スペック</td>
-            </tr>
         EOT;
 
         /**
@@ -454,162 +451,107 @@ function MD_BlogDo()
         //その他一般
         $spec99 = [10 => "サイズ", 11 => "収納サイズ", 12 => "総重量", 13 => "最小重量", 14 => "付属品", 15 => "素材", 16 => "生産国", 17 => "jan"];
 
-
-
-        for ($i = 10; $i <= 37; $i++) {
-            $postcontent .= "<tr>";
-            switch ($cate_flag) {
-                case 0: //テント
-                    if ($value[18] == "" && $value[19] == "" && $value[20] == "" && $value[21] == "") {
-                    } else {
-                        if ($i == 18) {
-                            $postcontent .= <<<EOT
-                                </tr>
-                                <tr>
-                                    <td colspan="2" style="font-weight:bolder;background:lightgray;text-align:center;">
-                                    その他
-                                    </td>
-                                </tr>
-                                <tr>
-                            EOT;
-                        }
-                    }
-                    if ($i != 17 && $i != 20 && $i < 22) {
-                        if ($value[$i] != "") {
-                            $postcontent .= <<<EOT
-                                <td style="text-align:center;font-weight:bold;min-width:100px">{$spec0[$i]}</td>
-                                    <td style="text-align:center">{$value[$i]}</td>
-                                EOT;
-                        }
-                    } elseif ($i == 20) {
-                        if ($value[$i] != "") {
-                            $self_stand = "";
-                            if ($value[$i] == 1) {
-                                $self_stand = "○";
-                            } elseif ($value[$i] == 2) {
-                                $self_stand = "×";
-                            }
-                            $postcontent .= <<<EOT
-                                    <td style="text-align:center;font-weight:bold">{$spec0[20]}</td>
-                                        <td style="text-align:center">{$self_stand}</td>
-                                EOT;
-                        }
-                    }
-                    if ($i == 22) {
-                        if ($value[$i] != "") {
-                            $product_link = get_permalink($skutoid[$value[$i]]);
-                            $product_name = get_the_title($skutoid[$value[$i]]);
-
-                            $postcontent .= <<<EOT
-                                <td style="text-align:center;font-weight:bold;min-width:100px">{$spec0[$i]}</td>
-                                    <td style="text-align:center"><a href="{$product_link}">{$product_name}</a></td>
-                                EOT;
-                        }
-                    }
-                    break;
-                case 1: //ストーブ
-                    if ($i == 18) {
-                        $postcontent .= <<<EOT
-                                </tr>
-                                <tr>
-                                    <td colspan="2" style="font-weight:bolder;background:lightgray;text-align:center;">
-                                    その他
-                                    </td>
-                                </tr>
-                                <tr>
-                            EOT;
-                    }
-                    if (($i >= 28 && $i <= 33) || $i <= 16) {
-                        if ($value[$i] != "") {
-                            $postcontent .= <<<EOT
-                                <td style="text-align:center;font-weight:bold">{$spec1[$i]}</td>
-                                    <td style="text-align:center;">{$value[$i]}</td>
-                                EOT;
-                        }
-                    }
-                    if ($i == 18) {
-                        if ($value[$i] != "") {
-                            $postcontent .= <<<EOT
-                                <td style="text-align:center;font-weight:bold">{$spec1[$i]}</td>
-                                    <td style="text-align:center;">{$value[$i]}</td>
-                                EOT;
-                        }
-                    }
-                    break;
-                case 2: //マットレス
-                    if ($value[22] == "" && $value[23] == "" && $value[24] == "" && $value[25] == "" && $value[26] == "" && $value[27] == "") {
-                    } else {
-                        if ($i == 22) {
-                            $postcontent .= <<<EOT
-                                </tr>
-                                <tr>
-                                    <td colspan="2" style="font-weight:bolder;background:lightgray;text-align:center;">
-                                    その他
-                                    </td>
-                                </tr>
-                                <tr>
-                            EOT;
-                        }
-                    }
-                    if (($i >= 22 && $i <= 27) || $i <= 16) {
-                        if ($value[$i] != "") {
-                            $postcontent .= <<<EOT
-                                        <td style="text-align:center;font-weight:bold">{$spec2[$i]}</td>
-                                            <td style="text-align:center;">{$value[$i]}</td>
-                                        EOT;
-                        }
-                    }
-                    break;
-                case 3: //浄水器
-                    if (($i >= 21 && $i <= 33) || ($i > 17 && $i <= 18)) {
-                        //echo "あ";
-                        if (($i == 21 && $value[21] != "") || ($i == 26 && $value[21] != "") || ($i == 31 && $value[21] != "")) {
-                            if ($value[$i] != "") {
+        /**
+         * スペック情報があればスペック情報を記載
+         */
+        $blank_chk = FALSE;
+        for ($i = 10; $i <= 37; $i++) { //スペック情報があるかどうかチェック
+            if (!empty($value[$i])) {
+                $blank_chk = TRUE;
+            }
+        }
+        if($blank_chk === TRUE) {
+            $postcontent .= <<<EOT
+            <tr>
+                <td colspan="2" style="text-align:center;font-weight:bold;background-color:lightgray">スペック</td>
+            </tr>
+            EOT;
+            for ($i = 10; $i <= 37; $i++) {
+                $postcontent .= "<tr>";
+                switch ($cate_flag) {
+                    case 0: //テント
+                        if ($value[18] == "" && $value[19] == "" && $value[20] == "" && $value[21] == "") {
+                        } else {
+                            if ($i == 18) {
                                 $postcontent .= <<<EOT
                                     </tr>
                                     <tr>
                                         <td colspan="2" style="font-weight:bolder;background:lightgray;text-align:center;">
-                                    EOT;
-                                switch ($i) {
-                                    case 21:
-                                        $postcontent .= "有効性";
-                                        break;
-                                    case 26:
-                                        $postcontent .= "性能";
-                                        break;
-                                    case 31:
-                                        $postcontent .= "特徴";
-                                        break;
-                                }
-                                $postcontent .= <<<EOT
+                                        その他
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="text-align:center;font-weight:bold">{$spec3[$i]}</td>
+                                EOT;
+                            }
+                        }
+                        if ($i != 17 && $i != 20 && $i < 22) {
+                            if ($value[$i] != "") {
+                                $postcontent .= <<<EOT
+                                    <td style="text-align:center;font-weight:bold;min-width:100px">{$spec0[$i]}</td>
+                                        <td style="text-align:center">{$value[$i]}</td>
+                                    EOT;
+                            }
+                        } elseif ($i == 20) {
+                            if ($value[$i] != "") {
+                                $self_stand = "";
+                                if ($value[$i] == 1) {
+                                    $self_stand = "○";
+                                } elseif ($value[$i] == 2) {
+                                    $self_stand = "×";
+                                }
+                                $postcontent .= <<<EOT
+                                        <td style="text-align:center;font-weight:bold">{$spec0[20]}</td>
+                                            <td style="text-align:center">{$self_stand}</td>
+                                    EOT;
+                            }
+                        }
+                        if ($i == 22) {
+                            if ($value[$i] != "") {
+                                $product_link = get_permalink($skutoid[$value[$i]]);
+                                $product_name = get_the_title($skutoid[$value[$i]]);
+
+                                $postcontent .= <<<EOT
+                                    <td style="text-align:center;font-weight:bold;min-width:100px">{$spec0[$i]}</td>
+                                        <td style="text-align:center"><a href="{$product_link}">{$product_name}</a></td>
+                                    EOT;
+                            }
+                        }
+                        break;
+                    case 1: //ストーブ
+                        if ($i == 18) {
+                            $postcontent .= <<<EOT
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="font-weight:bolder;background:lightgray;text-align:center;">
+                                        その他
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                EOT;
+                        }
+                        if (($i >= 28 && $i <= 33) || $i <= 16) {
+                            if ($value[$i] != "") {
+                                $postcontent .= <<<EOT
+                                    <td style="text-align:center;font-weight:bold">{$spec1[$i]}</td>
                                         <td style="text-align:center;">{$value[$i]}</td>
                                     EOT;
                             }
-                        } else {
+                        }
+                        if ($i == 18) {
                             if ($value[$i] != "") {
                                 $postcontent .= <<<EOT
-                                        <td style="text-align:center;font-weight:bold">{$spec3[$i]}</td>
-                                            <td style="text-align:center;">{$value[$i]}</td>
-                                        EOT;
+                                    <td style="text-align:center;font-weight:bold">{$spec1[$i]}</td>
+                                        <td style="text-align:center;">{$value[$i]}</td>
+                                    EOT;
                             }
                         }
-                    } elseif ($i >= 10 && $i < 17) {
-                        if ($value[$i] != "") {
-                            $postcontent .= <<<EOT
-                                        <td style="text-align:center;font-weight:bold">{$spec3[$i]}</td>
-                                            <td style="text-align:center;">{$value[$i]}</td>
-                                        EOT;
-                        }
-                    }
-                    break;
-                case 4: //寝袋
-                    if ($i == 18) {
-                        $postcontent .= <<<EOT
-                                </tr>
+                        break;
+                    case 2: //マットレス
+                        if ($value[22] == "" && $value[23] == "" && $value[24] == "" && $value[25] == "" && $value[26] == "" && $value[27] == "") {
+                        } else {
+                            if ($i == 22) {
+                                $postcontent .= <<<EOT
+                                    </tr>
                                     <tr>
                                         <td colspan="2" style="font-weight:bolder;background:lightgray;text-align:center;">
                                         その他
@@ -617,197 +559,266 @@ function MD_BlogDo()
                                     </tr>
                                     <tr>
                                 EOT;
-                    }
-                    if ($i <= 16) {
-                        if ($value[$i] != "") {
-                            $postcontent .= <<<EOT
+                            }
+                        }
+                        if (($i >= 22 && $i <= 27) || $i <= 16) {
+                            if ($value[$i] != "") {
+                                $postcontent .= <<<EOT
                                             <td style="text-align:center;font-weight:bold">{$spec2[$i]}</td>
                                                 <td style="text-align:center;">{$value[$i]}</td>
                                             EOT;
-                        }
-                    } elseif ($i == 27) {
-                        if ($value[$i] != "") {
-
-                            $ondotai[0] = NULL;
-                            $ondotai[1] = NULL;
-                            $ondotai[2] = NULL;
-                            $comfort[0] = NULL;
-                            $limit[0] = NULL;
-                            $risk[0] = NULL;
-                            $comfort[1] = NULL;
-                            $limit[1] = NULL;
-                            $risk[1] = NULL;
-
-                            $ondotai = explode("|", $value[$i]);
-                            /*echo "<pre>";
-                                var_dump($ondotai);
-                                echo "</pre>";*/
-                            if ($ondotai[0] == "EN") {
-                                $ondotai[0] = "EN規格";
-                            }
-
-                            $comfort = explode(":", $ondotai[1]);
-                            $limit = explode(":", $ondotai[2]);
-                            if ($comfort[1] != NULL) {
-                                $limit_t = str_replace("℃", "", $comfort[1]) - 1;
-                                if ($ondotai[3] != "") {
-                                    $risk = explode(":", $ondotai[3]);
-                                    $risk_t = str_replace("℃", "", $limit[1]) - 1;
-                                }
-                                if ($risk[0] != "") {
-
-                                    $postcontent .= <<<EOT
-                                        <td style="text-align:center;font-weight:bold">{$spec2[$i]}<br>($ondotai[0])</td>
-                                            <td style="text-align:center;line-height: 1em;">
-                                                <table style="margin:0">
-                                                    <tr>
-                                                        <td style="border-bottom:0;background: rgb(0,130,3);background: linear-gradient(90deg, rgba(0,130,3,1) 0%, rgba(17,179,0,1) 100%);color:white;width:33.3%;border-right:1px solid white;font-weight:bolder;"><table style="border:0;margin:0;padding:0;width:100%;"><tr style="border:0;margin:0;padding:0;width:100%;"><td style="border:0;margin:0;padding:0;width:50%;padding-left:5px" align="left">{$comfort[0]}<br>Range</td><td style="border:0;margin:0;padding:0;width:50%;" align="right">〜{$comfort[1]}</td></tr></table></td><td style="background: rgb(255,121,0);background: linear-gradient(90deg, rgba(255,121,0,1) 0%, rgba(255,181,0,1) 100%);color:white;width:33.3%;border-right:1px solid white;font-weight:bolder;"><table style="border:0;margin:0;padding:0;width:100%;"><tr style="border:0;margin:0;padding:0;width:100%;"><td style="border:0;margin:0;padding:0;width:50%;padding-left:5px" align="left">{$limit[0]}<br>Range</td><td style="border:0;margin:0;padding:0;width:50%;" align="right">{$limit_t}〜{$limit[1]}</td></tr></table></td><td style="background: rgb(150,0,0);background: linear-gradient(90deg, rgba(150,0,0,1) 0%, rgba(255,0,0,1) 100%);color:white;width:33.3%;font-weight:bolder;"><table style="border:0;margin:0;padding:0;width:100%;"><tr style="border:0;margin:0;padding:0;width:100%;"><td style="border:0;margin:0;padding:0;width:50%;padding-left:5px" align="left">{$risk[0]}<br>Range</td><td style="border:0;margin:0;padding:0;width:50%;padding-right:5px" align="right">{$risk_t}〜{$risk[1]}</td></tr></table></td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        EOT;
-                                } else {
-                                    $postcontent .= <<<EOT
-                                        <td style="text-align:center;font-weight:bold">{$spec2[$i]}<br>(規格外)</td>
-                                            <td style="text-align:center;line-height: 1em;">
-                                                <table  style="margin:0">
-                                                    <tr>
-                                                        <td style="border-bottom:0;background: rgb(0,130,3);background: linear-gradient(90deg, rgba(0,130,3,1) 0%, rgba(17,179,0,1) 100%);color:white;width:33.3%;border-right:1px solid white;font-weight:bolder;"><table style="border:0;margin:0;padding:0;width:100%;"><tr style="border:0;margin:0;padding:0;width:100%;"><td style="border:0;margin:0;padding:0;width:50%;padding-left:5px" align="left">{$comfort[0]}<br>Range</td><td style="border:0;margin:0;padding:0;width:50%;" align="right">〜{$comfort[1]}</td></tr></table></td><td style="background: rgb(255,121,0);background: linear-gradient(90deg, rgba(255,121,0,1) 0%, rgba(255,181,0,1) 100%);color:white;width:33.3%;border-right:1px solid white;font-weight:bolder;"><table style="border:0;margin:0;padding:0;width:100%;"><tr style="border:0;margin:0;padding:0;width:100%;"><td style="border:0;margin:0;padding:0;width:50%;padding-left:5px" align="left">{$limit[0]}<br>Range</td><td style="border:0;margin:0;padding:0;width:50%;" align="right">{$limit_t}〜{$limit[1]}</td></tr></table></td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        EOT;
-                                }
                             }
                         }
-                    }
-                    break;
-                case 5: //LED
-                    if (
-                        $i == 18
-                    ) {
-                        $postcontent .= <<<EOT
-                                </tr>
-                                    <tr>
-                                        <td colspan="2" style="font-weight:bolder;background:lightgray;text-align:center;">
-                                        その他
-                                        </td>
+                        break;
+                    case 3: //浄水器
+                        if (($i >= 21 && $i <= 33) || ($i > 17 && $i <= 18)) {
+                            //echo "あ";
+                            if (($i == 21 && $value[21] != "") || ($i == 26 && $value[21] != "") || ($i == 31 && $value[21] != "")) {
+                                if ($value[$i] != "") {
+                                    $postcontent .= <<<EOT
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="font-weight:bolder;background:lightgray;text-align:center;">
+                                        EOT;
+                                    switch ($i) {
+                                        case 21:
+                                            $postcontent .= "有効性";
+                                            break;
+                                        case 26:
+                                            $postcontent .= "性能";
+                                            break;
+                                        case 31:
+                                            $postcontent .= "特徴";
+                                            break;
+                                    }
+                                    $postcontent .= <<<EOT
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:center;font-weight:bold">{$spec3[$i]}</td>
+                                            <td style="text-align:center;">{$value[$i]}</td>
+                                        EOT;
+                                }
+                            } else {
+                                if ($value[$i] != "") {
+                                    $postcontent .= <<<EOT
+                                            <td style="text-align:center;font-weight:bold">{$spec3[$i]}</td>
+                                                <td style="text-align:center;">{$value[$i]}</td>
+                                            EOT;
+                                }
+                            }
+                        } elseif ($i >= 10 && $i < 17) {
+                            if ($value[$i] != "") {
+                                $postcontent .= <<<EOT
+                                            <td style="text-align:center;font-weight:bold">{$spec3[$i]}</td>
+                                                <td style="text-align:center;">{$value[$i]}</td>
+                                            EOT;
+                            }
+                        }
+                        break;
+                    case 4: //寝袋
+                        if ($i == 18) {
+                            $postcontent .= <<<EOT
                                     </tr>
-                                    <tr>
-                                EOT;
-                    }
-                    if (
-                        $i <= 16
-                    ) {
-                        if ($value[$i] != "") {
-                            $postcontent .= <<<EOT
-                                            <td style="text-align:center;font-weight:bold">{$spec4[$i]}</td>
-                                                <td style="text-align:center;">{$value[$i]}</td>
-                                            EOT;
+                                        <tr>
+                                            <td colspan="2" style="font-weight:bolder;background:lightgray;text-align:center;">
+                                            その他
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                    EOT;
                         }
-                    }
-                    if ($i == 26 || $i == 28 || $i == 30 || $i == 31) {
-                        if ($value[$i] != "") {
-                            $postcontent .= <<<EOT
-                                            <td style="text-align:center;font-weight:bold">{$spec4[$i]}</td>
-                                                <td style="text-align:center;">{$value[$i]}</td>
+                        if ($i <= 16) {
+                            if ($value[$i] != "") {
+                                $postcontent .= <<<EOT
+                                                <td style="text-align:center;font-weight:bold">{$spec2[$i]}</td>
+                                                    <td style="text-align:center;">{$value[$i]}</td>
+                                                EOT;
+                            }
+                        } elseif ($i == 27) {
+                            if ($value[$i] != "") {
+
+                                $ondotai[0] = NULL;
+                                $ondotai[1] = NULL;
+                                $ondotai[2] = NULL;
+                                $comfort[0] = NULL;
+                                $limit[0] = NULL;
+                                $risk[0] = NULL;
+                                $comfort[1] = NULL;
+                                $limit[1] = NULL;
+                                $risk[1] = NULL;
+
+                                $ondotai = explode("|", $value[$i]);
+                                /*echo "<pre>";
+                                    var_dump($ondotai);
+                                    echo "</pre>";*/
+                                if ($ondotai[0] == "EN") {
+                                    $ondotai[0] = "EN規格";
+                                }
+
+                                $comfort = explode(":", $ondotai[1]);
+                                $limit = explode(":", $ondotai[2]);
+                                if ($comfort[1] != NULL) {
+                                    $limit_t = str_replace("℃", "", $comfort[1]) - 1;
+                                    if ($ondotai[3] != "") {
+                                        $risk = explode(":", $ondotai[3]);
+                                        $risk_t = str_replace("℃", "", $limit[1]) - 1;
+                                    }
+                                    if ($risk[0] != "") {
+
+                                        $postcontent .= <<<EOT
+                                            <td style="text-align:center;font-weight:bold">{$spec2[$i]}<br>($ondotai[0])</td>
+                                                <td style="text-align:center;line-height: 1em;">
+                                                    <table style="margin:0">
+                                                        <tr>
+                                                            <td style="border-bottom:0;background: rgb(0,130,3);background: linear-gradient(90deg, rgba(0,130,3,1) 0%, rgba(17,179,0,1) 100%);color:white;width:33.3%;border-right:1px solid white;font-weight:bolder;"><table style="border:0;margin:0;padding:0;width:100%;"><tr style="border:0;margin:0;padding:0;width:100%;"><td style="border:0;margin:0;padding:0;width:50%;padding-left:5px" align="left">{$comfort[0]}<br>Range</td><td style="border:0;margin:0;padding:0;width:50%;" align="right">〜{$comfort[1]}</td></tr></table></td><td style="background: rgb(255,121,0);background: linear-gradient(90deg, rgba(255,121,0,1) 0%, rgba(255,181,0,1) 100%);color:white;width:33.3%;border-right:1px solid white;font-weight:bolder;"><table style="border:0;margin:0;padding:0;width:100%;"><tr style="border:0;margin:0;padding:0;width:100%;"><td style="border:0;margin:0;padding:0;width:50%;padding-left:5px" align="left">{$limit[0]}<br>Range</td><td style="border:0;margin:0;padding:0;width:50%;" align="right">{$limit_t}〜{$limit[1]}</td></tr></table></td><td style="background: rgb(150,0,0);background: linear-gradient(90deg, rgba(150,0,0,1) 0%, rgba(255,0,0,1) 100%);color:white;width:33.3%;font-weight:bolder;"><table style="border:0;margin:0;padding:0;width:100%;"><tr style="border:0;margin:0;padding:0;width:100%;"><td style="border:0;margin:0;padding:0;width:50%;padding-left:5px" align="left">{$risk[0]}<br>Range</td><td style="border:0;margin:0;padding:0;width:50%;padding-right:5px" align="right">{$risk_t}〜{$risk[1]}</td></tr></table></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
                                             EOT;
-                        }
-                    }
-                    if ($i == 34) {
-                        if ($value[$i] != "") {
-                            $proof = [4 => "IPX4", 5 => "IPX5", 6 => "IPX6", 7 => "IP67"];
-                            $postcontent .= <<<EOT
-                                            <td style="text-align:center;font-weight:bold">{$spec4[$i]}</td>
-                                                <td style="text-align:center;">{$proof[$value[$i]]}</td>
+                                    } else {
+                                        $postcontent .= <<<EOT
+                                            <td style="text-align:center;font-weight:bold">{$spec2[$i]}<br>(規格外)</td>
+                                                <td style="text-align:center;line-height: 1em;">
+                                                    <table  style="margin:0">
+                                                        <tr>
+                                                            <td style="border-bottom:0;background: rgb(0,130,3);background: linear-gradient(90deg, rgba(0,130,3,1) 0%, rgba(17,179,0,1) 100%);color:white;width:33.3%;border-right:1px solid white;font-weight:bolder;"><table style="border:0;margin:0;padding:0;width:100%;"><tr style="border:0;margin:0;padding:0;width:100%;"><td style="border:0;margin:0;padding:0;width:50%;padding-left:5px" align="left">{$comfort[0]}<br>Range</td><td style="border:0;margin:0;padding:0;width:50%;" align="right">〜{$comfort[1]}</td></tr></table></td><td style="background: rgb(255,121,0);background: linear-gradient(90deg, rgba(255,121,0,1) 0%, rgba(255,181,0,1) 100%);color:white;width:33.3%;border-right:1px solid white;font-weight:bolder;"><table style="border:0;margin:0;padding:0;width:100%;"><tr style="border:0;margin:0;padding:0;width:100%;"><td style="border:0;margin:0;padding:0;width:50%;padding-left:5px" align="left">{$limit[0]}<br>Range</td><td style="border:0;margin:0;padding:0;width:50%;" align="right">{$limit_t}〜{$limit[1]}</td></tr></table></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
                                             EOT;
+                                    }
+                                }
+                            }
                         }
-                    }
-                    break;
-                case 6: //シールライン
-                    if (
-                        $i == 18
-                    ) {
-                        $postcontent .= <<<EOT
-                                </tr>
-                                    <tr>
-                                        <td colspan="2" style="font-weight:bolder;background:lightgray;text-align:center;">
-                                        その他
-                                        </td>
+                        break;
+                    case 5: //LED
+                        if (
+                            $i == 18
+                        ) {
+                            $postcontent .= <<<EOT
                                     </tr>
-                                    <tr>
-                                EOT;
-                    }
-                    if (
-                        $i <= 16
-                    ) {
-                        if ($value[$i] != "") {
-                            $postcontent .= <<<EOT
-                                            <td style="text-align:center;font-weight:bold">{$spec5[$i]}</td>
-                                                <td style="text-align:center;">{$value[$i]}</td>
-                                            EOT;
+                                        <tr>
+                                            <td colspan="2" style="font-weight:bolder;background:lightgray;text-align:center;">
+                                            その他
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                    EOT;
                         }
-                    }
-                    if ($i == 35) {
-                        if ($value[$i] == 1) {
-                            $postcontent .= <<<EOT
-                                            <td style="text-align:center;font-weight:bold">{$spec5[$i]}</td>
-                                                <td style="text-align:center;">○</td>
-                                            EOT;
+                        if (
+                            $i <= 16
+                        ) {
+                            if ($value[$i] != "") {
+                                $postcontent .= <<<EOT
+                                                <td style="text-align:center;font-weight:bold">{$spec4[$i]}</td>
+                                                    <td style="text-align:center;">{$value[$i]}</td>
+                                                EOT;
+                            }
                         }
-                    }
-                    if ($i == 34) {
-                        if ($value[$i] != "") {
-                            $proof = [1 => "<strong>SPLASHPROOF:</strong>雨や軽い水濡れに耐えます。", 2 => "<strong>WATERPROOF:</strong>短時間の水没に耐え、水に落とした場合浮かびます。", 3 => "<strong>SUBMERSIBLE:</strong>水面下１メートルの水没に３０分間耐えます。"];
-                            $postcontent .= <<<EOT
-                                            <td style="text-align:center;font-weight:bold">{$spec5[$i]}</td>
-                                                <td style="text-align:center;">{$proof[$value[$i]]}</td>
-                                            EOT;
+                        if ($i == 26 || $i == 28 || $i == 30 || $i == 31) {
+                            if ($value[$i] != "") {
+                                $postcontent .= <<<EOT
+                                                <td style="text-align:center;font-weight:bold">{$spec4[$i]}</td>
+                                                    <td style="text-align:center;">{$value[$i]}</td>
+                                                EOT;
+                            }
                         }
-                    }
-                    break;
-                case 7: //プラティパス
-                    if (
-                        $i == 18
-                    ) {
-                        if ($value[$i] != "") {
+                        if ($i == 34) {
+                            if ($value[$i] != "") {
+                                $proof = [4 => "IPX4", 5 => "IPX5", 6 => "IPX6", 7 => "IP67"];
+                                $postcontent .= <<<EOT
+                                                <td style="text-align:center;font-weight:bold">{$spec4[$i]}</td>
+                                                    <td style="text-align:center;">{$proof[$value[$i]]}</td>
+                                                EOT;
+                            }
+                        }
+                        break;
+                    case 6: //シールライン
+                        if (
+                            $i == 18
+                        ) {
                             $postcontent .= <<<EOT
-                                </tr>
-                                    <tr>
-                                        <td colspan="2" style="font-weight:bolder;background:lightgray;text-align:center;">
-                                        その他
-                                        </td>
                                     </tr>
-                                    <tr>
-                                    <td style="text-align:center;font-weight:bold">{$spec6[$i]}</td>
-                                                <td style="text-align:center;">{$value[$i]}</td>
-                                EOT;
+                                        <tr>
+                                            <td colspan="2" style="font-weight:bolder;background:lightgray;text-align:center;">
+                                            その他
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                    EOT;
                         }
-                    }
-                    if (
-                        $i <= 16
-                    ) {
-                        if ($value[$i] != "") {
-                            $postcontent .= <<<EOT
-                                            <td style="text-align:center;font-weight:bold">{$spec6[$i]}</td>
-                                                <td style="text-align:center;">{$value[$i]}</td>
-                                            EOT;
+                        if (
+                            $i <= 16
+                        ) {
+                            if ($value[$i] != "") {
+                                $postcontent .= <<<EOT
+                                                <td style="text-align:center;font-weight:bold">{$spec5[$i]}</td>
+                                                    <td style="text-align:center;">{$value[$i]}</td>
+                                                EOT;
+                            }
                         }
-                    }
-                    break;
-                case 99: //その他・一般
-                    if ($i < 17) {
-                        if ($value[$i] != "") {
-                            $postcontent .= <<<EOT
-                                <td style="text-align:center;font-weight:bold;min-width:100px">{$spec99[$i]}</td>
-                                    <td style="text-align:center">{$value[$i]}</td>
-                                EOT;
+                        if ($i == 35) {
+                            if ($value[$i] == 1) {
+                                $postcontent .= <<<EOT
+                                                <td style="text-align:center;font-weight:bold">{$spec5[$i]}</td>
+                                                    <td style="text-align:center;">○</td>
+                                                EOT;
+                            }
                         }
-                    }
-                    break;
+                        if ($i == 34) {
+                            if ($value[$i] != "") {
+                                $proof = [1 => "<strong>SPLASHPROOF:</strong>雨や軽い水濡れに耐えます。", 2 => "<strong>WATERPROOF:</strong>短時間の水没に耐え、水に落とした場合浮かびます。", 3 => "<strong>SUBMERSIBLE:</strong>水面下１メートルの水没に３０分間耐えます。"];
+                                $postcontent .= <<<EOT
+                                                <td style="text-align:center;font-weight:bold">{$spec5[$i]}</td>
+                                                    <td style="text-align:center;">{$proof[$value[$i]]}</td>
+                                                EOT;
+                            }
+                        }
+                        break;
+                    case 7: //プラティパス
+                        if (
+                            $i == 18
+                        ) {
+                            if ($value[$i] != "") {
+                                $postcontent .= <<<EOT
+                                    </tr>
+                                        <tr>
+                                            <td colspan="2" style="font-weight:bolder;background:lightgray;text-align:center;">
+                                            その他
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                        <td style="text-align:center;font-weight:bold">{$spec6[$i]}</td>
+                                                    <td style="text-align:center;">{$value[$i]}</td>
+                                    EOT;
+                            }
+                        }
+                        if (
+                            $i <= 16
+                        ) {
+                            if ($value[$i] != "") {
+                                $postcontent .= <<<EOT
+                                                <td style="text-align:center;font-weight:bold">{$spec6[$i]}</td>
+                                                    <td style="text-align:center;">{$value[$i]}</td>
+                                                EOT;
+                            }
+                        }
+                        break;
+                    case 99: //その他・一般
+                        if ($i < 17) {
+                            if ($value[$i] != "") {
+                                $postcontent .= <<<EOT
+                                    <td style="text-align:center;font-weight:bold;min-width:100px">{$spec99[$i]}</td>
+                                        <td style="text-align:center">{$value[$i]}</td>
+                                    EOT;
+                            }
+                        }
+                        break;
+                }
+                $postcontent .= "</tr>";
             }
-            $postcontent .= "</tr>";
-        }
+        }//スペック情報があるかどうか終了
 
         $postcontent .= "</table>";
 
