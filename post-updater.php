@@ -4,7 +4,7 @@
  * Plugin Name:商品内容定期更新
  * Plugin URI: プラグインのURL
  * Description:商品情報を基幹システムと連携し、更新する
- * Version: 2.1.3
+ * Version: 2.1.4
  * Author: Yu Ishiga
  * Author URI: https://backcountry-works.com
  */
