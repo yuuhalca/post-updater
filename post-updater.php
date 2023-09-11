@@ -472,6 +472,11 @@ function MD_BlogDo()
                 break;
             }
         }
+        ?>
+        <pre style="display:none">
+            <?php echo $value[0] . "=" . $blank_chk ."<br>"; ?>
+        </pre>
+        <?php
         if ($blank_chk !== FALSE) {
             $postcontent .= <<<EOT
             <tr>
