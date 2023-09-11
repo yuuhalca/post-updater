@@ -456,10 +456,8 @@ function MD_BlogDo()
          */
         $blank_chk = FALSE;
         for ($i = 10; $i <= 37; $i++) { //スペック情報があるかどうかチェック
-            if($i != 17) {
-                if (!empty($value[$i])) {
-                    $blank_chk = true;
-                }
+            if ($i != 17 && $value[$i] != "") {
+                $blank_chk = TRUE;
             }
         }
         if($blank_chk === TRUE) {
