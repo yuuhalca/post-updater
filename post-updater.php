@@ -466,7 +466,7 @@ function MD_BlogDo()
          * スペック情報があればスペック情報を記載
          */
         $blank_chk = FALSE;
-        for ($i = 10; $i <= 37; $i++) { //スペック情報があるかどうかチェック
+        for ($i = 10; $i < 37; $i++) { //スペック情報があるかどうかチェック
             if ($i != 17 && $value[$i] != "") {
                 $blank_chk = TRUE;
                 break;
