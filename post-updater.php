@@ -174,7 +174,7 @@ class Postupdater_admin
             <p>
                 <from action="" method="post" id="force-update">
                     <?php wp_nonce_field(self::CREDENTIAL_ACTION, self::CREDENTIAL_NAME) ?>
-                    <input type="hidden" name="force-update" value="1" />
+                    <input type="hidden" name="f-update" value="1" />
                     <input type="submit" value="今すぐ同期する" class='button button-primary button-large' />
                 </from>
             </p>
@@ -187,7 +187,7 @@ class Postupdater_admin
 
         // nonceで設定したcredentialのチェック 
         if (isset($_POST[self::CREDENTIAL_NAME]) && $_POST[self::CREDENTIAL_NAME]) {
-            if (check_admin_referer(self::CREDENTIAL_ACTION, self::CREDENTIAL_NAME) && $_POST["force-update"] != 1) {
+            if (check_admin_referer(self::CREDENTIAL_ACTION, self::CREDENTIAL_NAME) && $_POST["f-update"] != 1) {
 
                 // 保存処理
                 $key   = ["name", "price", "description", "reserve"];
@@ -203,7 +203,7 @@ class Postupdater_admin
 
                 // 設定画面にリダイレクト
                 wp_safe_redirect(menu_page_url(self::CONFIG_MENU_SLUG), false);
-            }elseif(check_admin_referer(self::CREDENTIAL_ACTION, self::CREDENTIAL_NAME) && $_POST["force-update"] == 1){
+            }elseif(check_admin_referer(self::CREDENTIAL_ACTION, self::CREDENTIAL_NAME) && $_POST["f-update"] == 1){
                 MD_BlogDo();
             }
         }
