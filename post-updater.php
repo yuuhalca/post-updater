@@ -35,6 +35,13 @@ define('WP_DB_PSWD', get_option('wp_db_pswd'));
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * 同期間隔の設定
+ */
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+define('SYNC_INTERVAL', "every_15min");//weekly,every_15min,every_30min,その他wordpress標準の時間設定が可能です。
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
  * CRON設定
  */
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +50,7 @@ add_action('MD_BlogCronHook', 'MD_BlogDo');
 function MD_BlogCronStart()
 {
     //do twice per day
-    wp_schedule_event(time(), 'every_15min', 'MD_BlogCronHook');
+    wp_schedule_event(time(), SYNC_INTERVAL, 'MD_BlogCronHook');
 }
 register_activation_hook(__FILE__, 'MD_BlogCronStart');
 
@@ -62,10 +69,15 @@ function my_add_intervals($schedules)
         'interval' => 604800,
         'display' => __('Once Weekly')
     );
+    // 15分に1回のスケジュールを追加する
+    $schedules['every_15min'] = array(
+        'interval' => 900,
+        'display' => __('Every 15 minutes')
+    );
     // 30分に1回のスケジュールを追加する
-    $schedules['every_15min'] = array( // 「every_30min」という名前でスケジュール登録
-        'interval' => 900, // 実行間隔 この場合は30分なので、60(秒) * 30(分) = 1800(秒)
-        'display' => __('Every 15 minutes') // 30分おきに実行
+    $schedules['every_30min'] = array(
+        'interval' => 1800,
+        'display' => __('Every 30 minutes') // 30分おきに実行
     );
     return $schedules;
 }
