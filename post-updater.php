@@ -172,11 +172,11 @@ class Postupdater_admin
             <p>通常15分ごとに更新していますが、今すぐ更新したいときはこのボタンを使用してください。<br>
                 何回も押すとサーバーの負担になります。５分以上おいてから押してください。</p>
             <p>
-                <from action="" method="post" id="force-update">
+                <form action="" method="post" id="force-update">
                     <?php wp_nonce_field(self::CREDENTIAL_ACTION, self::CREDENTIAL_NAME) ?>
                     <input type="hidden" name="f-update" value="1" />
                     <input type="submit" value="今すぐ同期する" class='button button-primary button-large' />
-                </from>
+                </form>
             </p>
         </div>
 <?php
