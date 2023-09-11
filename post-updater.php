@@ -472,11 +472,14 @@ function MD_BlogDo()
                 break;
             }
         }
+        if($value[0] == "91038"){
         ?>
         <pre style="display:none">
-            <?php echo $value[0] . "=" . $blank_chk ."<br>"; ?>
+            <?php echo $value[0] . "=" . var_export($blank_chk) ."<br>"; ?>
+            <?php var_dump($value) ?>
         </pre>
         <?php
+        }
         if ($blank_chk !== FALSE) {
             $postcontent .= <<<EOT
             <tr>
