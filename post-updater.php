@@ -28,10 +28,10 @@ use post_updater\CSV_controller;
 define('SYNC_PRICE', get_option('post-updater_price') == 1 ? true : false); //価格
 define('SYNC_NAME', get_option('post-updater_name') == 1 ? true : false); //商品名
 define('SYNC_DESCRIPTION', get_option('post-updater_description') == 1 ? true : false); //説明
-define('SYNC_RESERVE',get_option('post-updater_reserve'));//予約時間
-define('WP_DB_USER',get_option('wp_db_user'));
-define('WP_DB_TABLE',get_option('wp_db_table'));
-define('WP_DB_PSWD',get_option('wp_db_pswd'));
+define('SYNC_RESERVE', get_option('post-updater_reserve')); //予約時間
+define('WP_DB_USER', get_option('wp_db_user'));
+define('WP_DB_TABLE', get_option('wp_db_table'));
+define('WP_DB_PSWD', get_option('wp_db_pswd'));
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -120,10 +120,10 @@ class Postupdater_admin
         $name = get_option(self::PLUGIN_DB_PREFIX . "name");
         $price = get_option(self::PLUGIN_DB_PREFIX . "price");
         $description = get_option(self::PLUGIN_DB_PREFIX . "description");
-        $reserve = get_option(self::PLUGIN_DB_PREFIX."reserve");
+        $reserve = get_option(self::PLUGIN_DB_PREFIX . "reserve");
 ?>
         <style>
-            .pu-setting label{
+            .pu-setting label {
                 display: flex;
                 margin: 10px 0;
             }
@@ -142,32 +142,42 @@ class Postupdater_admin
                 <p class="pu-setting">
                     <label for="name"><strong>商品名：</strong>
                         <select name="name">
-                            <option value="1" <?php if($name == 1)echo "selected"; ?>>ON</option>
-                            <option value="0" <?php if($name == "")echo "selected"; ?>>OFF</option>
+                            <option value="1" <?php if ($name == 1) echo "selected"; ?>>ON</option>
+                            <option value="0" <?php if ($name == "") echo "selected"; ?>>OFF</option>
                         </select>
                     </label>
                     <label for="price"><strong>価格：</strong>
                         <select name="price">
-                            <option value="1" <?php if($price == 1)echo "selected"; ?>>ON</option>
-                            <option value="0" <?php if($price == "")echo "selected"; ?>>OFF</option>
+                            <option value="1" <?php if ($price == 1) echo "selected"; ?>>ON</option>
+                            <option value="0" <?php if ($price == "") echo "selected"; ?>>OFF</option>
                         </select>
                     </label>
                     <label for="description"><strong>説明：</strong>
                         <select name="description">
-                            <option value="1" <?php if($description == 1)echo "selected"; ?>>ON</option>
-                            <option value="0" <?php if($description == "")echo "selected"; ?>>OFF</option>
+                            <option value="1" <?php if ($description == 1) echo "selected"; ?>>ON</option>
+                            <option value="0" <?php if ($description == "") echo "selected"; ?>>OFF</option>
                         </select>
                     </label>
                     <label for="reserve">
                         <storong>予約：</storong><br>
                         予約をすると、上の項目でOFFになっているものが予約日時にONなります。<br>
                         予約を利用しない場合は空白にしてください。<br>
-                        <input name="reserve" type="datetime-local" value="<?=$reserve ?>">
+                        <input name="reserve" type="datetime-local" value="<?= $reserve ?>">
                     </label>
                 </p>
 
                 <p><input type='submit' value='保存' class='button button-primary button-large'></p>
             </form>
+            <h2>強制同期</h2>
+            <p>通常15分ごとに更新していますが、今すぐ更新したいときはこのボタンを使用してください。<br>
+                何回も押すとサーバーの負担になります。５分以上おいてから押してください。</p>
+            <p>
+                <from action="" method="post" id="force-update">
+                    <?php wp_nonce_field(self::CREDENTIAL_ACTION, self::CREDENTIAL_NAME) ?>
+                    <input type="hidden" name="force-update" value="1" />
+                    <input type="submit" value="今すぐ同期する" class='button button-primary button-large' />
+                </from>
+            </p>
         </div>
 <?php
     }
@@ -177,11 +187,11 @@ class Postupdater_admin
 
         // nonceで設定したcredentialのチェック 
         if (isset($_POST[self::CREDENTIAL_NAME]) && $_POST[self::CREDENTIAL_NAME]) {
-            if (check_admin_referer(self::CREDENTIAL_ACTION, self::CREDENTIAL_NAME)) {
+            if (check_admin_referer(self::CREDENTIAL_ACTION, self::CREDENTIAL_NAME) && $_POST["force-update"] != 1) {
 
                 // 保存処理
-                $key   = ["name","price","description","reserve"];
-                foreach($key as $value){
+                $key   = ["name", "price", "description", "reserve"];
+                foreach ($key as $value) {
                     $result = $_POST[$value] ? $_POST[$value] : "";
                     update_option(self::PLUGIN_DB_PREFIX . $value, $result);
                 }
@@ -193,6 +203,8 @@ class Postupdater_admin
 
                 // 設定画面にリダイレクト
                 wp_safe_redirect(menu_page_url(self::CONFIG_MENU_SLUG), false);
+            }elseif(check_admin_referer(self::CREDENTIAL_ACTION, self::CREDENTIAL_NAME) && $_POST["force-update"] == 1){
+                MD_BlogDo();
             }
         }
     }
@@ -260,16 +272,15 @@ function MD_BlogDo()
     $db = new DBconnection_X("localhost", WP_DB_TABLE, WP_DB_USER, WP_DB_PSWD);
     $csv = new CSV_controller("/home/xs683807/mot-ec.com/public_html/order/auto_upload/csv/zaiko.csv");
 
-    if(SYNC_RESERVE != "")
-    {
-        $date = new DateTime(str_replace("T"," ",SYNC_RESERVE),new DateTimeZone("Asia/Tokyo"));
+    if (SYNC_RESERVE != "") {
+        $date = new DateTime(str_replace("T", " ", SYNC_RESERVE), new DateTimeZone("Asia/Tokyo"));
         $reserve = $date->format("U");
 
-        if(time() >= $reserve){
-            update_option("post-updater_reserve","");
-            update_option("post-updater_name","1");
-            update_option("post-updater_price","1");
-            update_option("post-updater_description","1");
+        if (time() >= $reserve) {
+            update_option("post-updater_reserve", "");
+            update_option("post-updater_name", "1");
+            update_option("post-updater_price", "1");
+            update_option("post-updater_description", "1");
         }
     }
 
@@ -461,7 +472,7 @@ function MD_BlogDo()
                 break;
             }
         }
-        if($blank_chk !== FALSE) {
+        if ($blank_chk !== FALSE) {
             $postcontent .= <<<EOT
             <tr>
                 <td colspan="2" style="text-align:center;font-weight:bold;background-color:lightgray">スペック</td>
@@ -819,7 +830,7 @@ function MD_BlogDo()
                 }
                 $postcontent .= "</tr>";
             }
-        }//スペック情報があるかどうか終了
+        } //スペック情報があるかどうか終了
 
         $postcontent .= "</table>";
 
