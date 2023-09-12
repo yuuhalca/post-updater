@@ -1016,7 +1016,7 @@ function MD_BlogDo()
         $update[] = $db->updateDatabase("wp_posts", "'" . $publish . "'", "post_status", $data_final[$value[0]]["ID"], "ID");
         $update[] = $db->updateDatabase("wp_posts", "'" . $ping_status . "'", "ping_status", $data_final[$value[0]]["ID"], "ID");
 
-        /*バグフィックス用
+        /*バグフィックス
         //$description[] = $value[7];
 
         if ($ex_count == count($csv_data)) {
