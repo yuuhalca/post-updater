@@ -919,7 +919,7 @@ function MD_BlogDo()
          */
 
         if ($value[1] <= 0 && $value[2] == "2200/12/31") {
-            $haiban = "<strong style=\"color:red\">※当商品は製造終了に伴い、現在取扱店様にございます在庫にて廃盤となりました。</strong><br><br>";
+            $haiban = "<strong style=\"color:red\">【製造終了】誠に勝手ながら当商品は製造終了に伴い廃盤となりました。弊社在庫につきましても終了致しましたのでご了承ください。</strong><br><br>";
         }
 
 
