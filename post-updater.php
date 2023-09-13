@@ -38,7 +38,7 @@ define('WP_DB_PSWD', get_option('wp_db_pswd'));
  * 同期間隔の設定
  */
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-define('SYNC_INTERVAL', "every_15min");//weekly,every_15min,every_30min,その他wordpress標準の時間設定が可能です。
+define('SYNC_INTERVAL', "every_15min"); //weekly,every_15min,every_30min,その他wordpress標準の時間設定が可能です。
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -184,11 +184,11 @@ class Postupdater_admin
             <p>通常15分ごとに更新していますが、今すぐ更新したいときはこのボタンを使用してください。<br>
                 何回も押すとサーバーの負担になります。５分以上おいてから押してください。</p>
             <p>
-                <form action="" method="post" id="force-update">
-                    <?php wp_nonce_field(self::CREDENTIAL_ACTION, self::CREDENTIAL_NAME) ?>
-                    <input type="hidden" name="f-update" value="1" />
-                    <input type="submit" value="今すぐ同期する" class='button button-primary button-large' />
-                </form>
+            <form action="" method="post" id="force-update">
+                <?php wp_nonce_field(self::CREDENTIAL_ACTION, self::CREDENTIAL_NAME) ?>
+                <input type="hidden" name="f-update" value="1" />
+                <input type="submit" value="今すぐ同期する" class='button button-primary button-large' />
+            </form>
             </p>
         </div>
 <?php
@@ -215,7 +215,7 @@ class Postupdater_admin
 
                 // 設定画面にリダイレクト
                 wp_safe_redirect(menu_page_url(self::CONFIG_MENU_SLUG), false);
-            }elseif(check_admin_referer(self::CREDENTIAL_ACTION, self::CREDENTIAL_NAME) && $_POST["f-update"] == 1){
+            } elseif (check_admin_referer(self::CREDENTIAL_ACTION, self::CREDENTIAL_NAME) && $_POST["f-update"] == 1) {
                 MD_BlogDo();
             }
         }
@@ -962,7 +962,7 @@ function MD_BlogDo()
         if (SYNC_DESCRIPTION === true) {
             if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
                 $update[] = $db->updateDatabase("wp_posts", "", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
-                $update[] = $db->updateDatabase("wp_posts", "'" . $haiban_v . $value[7] . "'", "post_excerpt", $simpleorvariable[$data_final[$value[0]]["ID"]][1], "ID");//親商品
+                $update[] = $db->updateDatabase("wp_posts", "'" . $haiban_v . $value[7] . "'", "post_excerpt", $simpleorvariable[$data_final[$value[0]]["ID"]][1], "ID"); //親商品
             } else {
                 $update[] = $db->updateDatabase("wp_posts", "'" . $haiban . $value[7] . $postcontent . "'", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
             }
@@ -1046,10 +1046,12 @@ function MD_BlogDo()
             //$wpdb->query($wpdb->prepare("INSERT INTO `cron_log` (`id`, `name`, `datetime`, `error`) VALUES (NULL,'商品情報を更新しました','{$datetime}','{$debug}');"));
         }
         */
-        if($value[1] <= 0 && $value[2] == "2200/12/31" && ($value[38] == 1 || $value[38] == 5)){
+        /* 期中廃盤抽出
+        if ($value[1] <= 0 && $value[2] == "2200/12/31" && ($value[38] == 1 || $value[38] == 5)) {
             $url = get_permalink($skutoid[$value[0]]);
             $wpdb->query($wpdb->prepare("INSERT INTO `hiban` (`id`, `sku`,`brand`, `name`, `url`) VALUES (NULL,'{$value[0]}','{$value[45]}','{$value[6]}','{$url}');"));
         }
+        */
     }
 }
 ?>
