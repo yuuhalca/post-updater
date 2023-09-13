@@ -1047,7 +1047,7 @@ function MD_BlogDo()
         }
         */
         if($value[1] <= 0 && $value[2] == "2200/12/31" && ($value[38] == 1 || $value[38] == 5)){
-            $url = get_permalink($skutoid[$value[$i]]);
+            $url = get_permalink($skutoid[$value[0]]);
             $wpdb->query($wpdb->prepare("INSERT INTO `haiban` (`id`, `sku`, `name`, `url`) VALUES (NULL,'{$value[0]}','{$value[6]}','{$url}');"));
         }
     }
