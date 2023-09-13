@@ -373,6 +373,7 @@ function MD_BlogDo()
     $ex_count = 0;
     foreach ($csv_data as $value) {
         $haiban = "";
+        $haiban_v = "";
         if (empty($data_final[$value[0]])) continue; //品番がないものはスキップ
         $ex_count++;
 
@@ -388,8 +389,9 @@ function MD_BlogDo()
         /**
          * 期中に廃盤
          */
-        if($value[1] == "0" && $value[2] == "2200/12/31"){
+        if($value[1] <= 0 && $value[2] == "2200/12/31"){
             $haiban = "<strong style=\"color:red\">※当商品は製造終了に伴い、現在取扱店様にございます在庫にて廃盤となりました。</strong><br><br>";
+            $haiban_v = "<strong style=\"color:red\">※一部バリエーションが廃盤となっております。</strong><br><br>";
         }
 
         /**
@@ -957,7 +959,7 @@ function MD_BlogDo()
         if (SYNC_DESCRIPTION === true) {
             if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
                 $update[] = $db->updateDatabase("wp_posts", "", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
-                $update[] = $db->updateDatabase("wp_posts", "'" .  $value[7] . "'", "post_excerpt", $simpleorvariable[$data_final[$value[0]]["ID"]][1], "ID");
+                $update[] = $db->updateDatabase("wp_posts", "'" . $haiban_v . $value[7] . "'", "post_excerpt", $simpleorvariable[$data_final[$value[0]]["ID"]][1], "ID");
             } else {
                 $update[] = $db->updateDatabase("wp_posts", "'" . $haiban . $value[7] . $postcontent . "'", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
             }
