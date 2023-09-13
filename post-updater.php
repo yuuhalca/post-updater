@@ -922,13 +922,6 @@ function MD_BlogDo()
             $haiban = "<strong style=\"color:red\">※当商品は製造終了に伴い、現在取扱店様にございます在庫にて廃盤となりました。</strong><br><br>";
             $haiban_v = "<strong style=\"color:red\">※一部バリエーションが廃盤となっております。</strong><br><br>";
         }
-        
-        if($simpleorvariable[$data_final[$value[0]]["ID"]][1] != $pre_parent){
-            if($m == 0) $haiban_v = "";
-            $m = 0;
-        }else{
-            $m++;
-        }
 
 
         /**
@@ -936,6 +929,9 @@ function MD_BlogDo()
          */
         $vd_flag = FALSE;
         if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
+            $v_get = $wpdb->query($wpdb->prepare("SELECT * FROM `wp_posts` WHERE `post_type` LIKE \"product_variation\" AND `post_parent` LIKE \"{$simpleorvariable[$data_final[$value[0]]["ID"]][1]}\";"));
+            var_dump($v_get);
+
             if (count($wp_postmeta2) > 0) {
                 foreach ($wp_postmeta2 as $valval) {
                     if ($vd_flag === TRUE) continue;
