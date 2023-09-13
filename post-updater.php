@@ -929,7 +929,7 @@ function MD_BlogDo()
          */
         $vd_flag = FALSE;
         if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
-            $v_get = $wpdb->query($wpdb->prepare("SELECT * FROM `wp_posts` WHERE `post_type` LIKE \"product_variation\" AND `post_parent` LIKE \"{$simpleorvariable[$data_final[$value[0]]["ID"]][1]}\";"));
+            $v_get = $wpdb->get_results("SELECT * FROM `wp_posts` WHERE `post_type` LIKE \"product_variation\" AND `post_parent` LIKE \"{$simpleorvariable[$data_final[$value[0]]["ID"]][1]}\";");
             var_dump($v_get);
 
             if (count($wp_postmeta2) > 0) {
