@@ -371,9 +371,11 @@ function MD_BlogDo()
     $debug = "";
     //$pro_count = false;
     $ex_count = 0;
+    $pre_parent = "";
+    $haiban_v = "";
+    $m = 0;
     foreach ($csv_data as $value) {
         $haiban = "";
-        $haiban_v = "";
         if (empty($data_final[$value[0]])) continue; //品番がないものはスキップ
         $ex_count++;
 
@@ -384,15 +386,6 @@ function MD_BlogDo()
         $name = array_filter($name_t);
         $name = implode(" ", $name);
         $name = mb_convert_kana($name, "KHVA");
-
-
-        /**
-         * 期中に廃盤
-         */
-        if($value[1] <= 0 && $value[2] == "2200/12/31"){
-            $haiban = "<strong style=\"color:red\">※当商品は製造終了に伴い、現在取扱店様にございます在庫にて廃盤となりました。</strong><br><br>";
-            $haiban_v = "<strong style=\"color:red\">※一部バリエーションが廃盤となっております。</strong><br><br>";
-        }
 
         /**
          * Description加工開始
@@ -922,6 +915,23 @@ function MD_BlogDo()
         }
 
         /**
+         * 期中に廃盤
+         */
+
+        if ($value[1] <= 0 && $value[2] == "2200/12/31") {
+            $haiban = "<strong style=\"color:red\">※当商品は製造終了に伴い、現在取扱店様にございます在庫にて廃盤となりました。</strong><br><br>";
+            $haiban_v = "<strong style=\"color:red\">※一部バリエーションが廃盤となっております。</strong><br><br>";
+        }
+        
+        if($simpleorvariable[$data_final[$value[0]]["ID"]][1] != $pre_parent){
+            if($m == 0) $haiban_v = "";
+            $m = 0;
+        }else{
+            $m++;
+        }
+
+
+        /**
          * バリエーションありの商品の説明を追加
          */
         $vd_flag = FALSE;
@@ -959,7 +969,7 @@ function MD_BlogDo()
         if (SYNC_DESCRIPTION === true) {
             if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
                 $update[] = $db->updateDatabase("wp_posts", "", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
-                $update[] = $db->updateDatabase("wp_posts", "'" . $haiban_v . $value[7] . "'", "post_excerpt", $simpleorvariable[$data_final[$value[0]]["ID"]][1], "ID");
+                $update[] = $db->updateDatabase("wp_posts", "'" . $haiban_v . $value[7] . "'", "post_excerpt", $simpleorvariable[$data_final[$value[0]]["ID"]][1], "ID");//親商品
             } else {
                 $update[] = $db->updateDatabase("wp_posts", "'" . $haiban . $value[7] . $postcontent . "'", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
             }
@@ -1025,6 +1035,7 @@ function MD_BlogDo()
         }
         $update[] = $db->updateDatabase("wp_posts", "'" . $publish . "'", "post_status", $data_final[$value[0]]["ID"], "ID");
         $update[] = $db->updateDatabase("wp_posts", "'" . $ping_status . "'", "ping_status", $data_final[$value[0]]["ID"], "ID");
+        $pre_parent = $simpleorvariable[$data_final[$value[0]]["ID"]][1];
 
         /*バグフィックス
         //$description[] = $value[7];
