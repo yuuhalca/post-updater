@@ -929,20 +929,20 @@ function MD_BlogDo()
                     if ($vd_flag === TRUE) continue;
                     if ($valval["post_id"] == $data_final[$value[0]]["ID"] && $valval["meta_key"] == "_variation_description") {
                         if (SYNC_DESCRIPTION === true) {
-                            $update[] = $db->updateDatabase("wp_postmeta", "'" . $postcontent . "'", "meta_value", [$data_final[$value[0]]["ID"], "_variation_description"], ["post_id", "meta_key"]);
+                            $update[] = $db->updateDatabase("wp_postmeta", "'" . $haiban . $postcontent . "'", "meta_value", [$data_final[$value[0]]["ID"], "_variation_description"], ["post_id", "meta_key"]);
                         }
                         $vd_flag = TRUE;
                     }
                 }
             } else {
-                $Insert[] = $db->insertDatabase("wp_postmeta", $data_final[$value[0]]["ID"], "_variation_description", $postcontent);
+                $Insert[] = $db->insertDatabase("wp_postmeta", $data_final[$value[0]]["ID"], "_variation_description", $haiban . $postcontent);
             }
             $result = $db->Multi_searchDatabase("wp_postmeta", ["post_id", "meta_key"], [$data_final[$value[0]]["ID"], "_variation_description"]);
 
             $test_r[] = $data_final[$value[0]]["ID"] . "|" . count($result);
 
             if (count($result) == 0) {
-                $Insert[] = $db->insertDatabase("wp_postmeta", $data_final[$value[0]]["ID"], "_variation_description", $postcontent);
+                $Insert[] = $db->insertDatabase("wp_postmeta", $data_final[$value[0]]["ID"], "_variation_description", $haiban . $postcontent);
             }
         }
         $vd_flag = FALSE;
@@ -957,7 +957,7 @@ function MD_BlogDo()
         if (SYNC_DESCRIPTION === true) {
             if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
                 $update[] = $db->updateDatabase("wp_posts", "", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
-                $update[] = $db->updateDatabase("wp_posts", "'" . $haiban . $value[7] . "'", "post_excerpt", $simpleorvariable[$data_final[$value[0]]["ID"]][1], "ID");
+                $update[] = $db->updateDatabase("wp_posts", "'" .  $value[7] . "'", "post_excerpt", $simpleorvariable[$data_final[$value[0]]["ID"]][1], "ID");
             } else {
                 $update[] = $db->updateDatabase("wp_posts", "'" . $haiban . $value[7] . $postcontent . "'", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
             }
