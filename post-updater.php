@@ -920,7 +920,6 @@ function MD_BlogDo()
 
         if ($value[1] <= 0 && $value[2] == "2200/12/31") {
             $haiban = "<strong style=\"color:red\">※当商品は製造終了に伴い、現在取扱店様にございます在庫にて廃盤となりました。</strong><br><br>";
-            //$haiban_v = "<strong style=\"color:red\">※一部バリエーションが廃盤となっております。</strong><br><br>";
         }
 
 
@@ -929,18 +928,6 @@ function MD_BlogDo()
          */
         $vd_flag = FALSE;
         if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
-            $get_post = $wpdb->get_results("SELECT * FROM `wp_posts` WHERE `post_type` LIKE \"product_variation\" AND `post_parent` LIKE \"{$simpleorvariable[$data_final[$value[0]]["ID"]][1]}\";");
-            foreach ($get_post as $row) {
-                $v_get[$row->post_parent][] = $row->ID;
-            }
-            foreach($v_get[$simpleorvariable[$data_final[$value[0]]["ID"]][1]] as $v_id){
-                $get_v_stock = $wpdb->get_results("SELECT `meta_value` FROM `wp_postmeta` WHERE `meta_key` = \"_stock\" AND `post_id` = {$v_id};");
-                foreach($get_v_stock as $row){
-                    $v_stock[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][] = $row->meta_value;
-                }
-            }
-            var_dump($v_stock);
-
 
             if (count($wp_postmeta2) > 0) {
                 foreach ($wp_postmeta2 as $valval) {
