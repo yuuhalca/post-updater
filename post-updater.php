@@ -371,8 +371,8 @@ function MD_BlogDo()
     $debug = "";
     //$pro_count = false;
     $ex_count = 0;
-    $haiban = "";
     foreach ($csv_data as $value) {
+        $haiban = "";
         if (empty($data_final[$value[0]])) continue; //品番がないものはスキップ
         $ex_count++;
 
