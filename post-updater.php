@@ -929,10 +929,18 @@ function MD_BlogDo()
          */
         $vd_flag = FALSE;
         if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
-            $v_get = $wpdb->get_results("SELECT * FROM `wp_posts` WHERE `post_type` LIKE \"product_variation\" AND `post_parent` LIKE \"{$simpleorvariable[$data_final[$value[0]]["ID"]][1]}\";");
-            foreach ($v_get as $row) {
-                echo $row->post_parent . "<br>";
+            $get_post = $wpdb->get_results("SELECT * FROM `wp_posts` WHERE `post_type` LIKE \"product_variation\" AND `post_parent` LIKE \"{$simpleorvariable[$data_final[$value[0]]["ID"]][1]}\";");
+            foreach ($get_post as $row) {
+                $v_get[$row->post_parent][] = $row->ID;
             }
+            foreach($v_get[$simpleorvariable[$data_final[$value[0]]["ID"]][1]] as $v_id){
+                $get_v_stock = $wpdb->get_results("SELECT `meta_value` FROM `wp_postmeta` WHERE `meta_key` = \"_stock\" AND `post_id` = {$v_id};");
+                foreach($get_v_stock as $row){
+                    $v_stock[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][] = $row->meta_value;
+                }
+            }
+            var_dump($v_stock);
+
 
             if (count($wp_postmeta2) > 0) {
                 foreach ($wp_postmeta2 as $valval) {
