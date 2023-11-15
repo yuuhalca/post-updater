@@ -891,7 +891,7 @@ function MD_BlogDo()
         }
         //echo $name2."<br>";
         if (strpos($name, '(P)') !== false || strpos($name, '（Ｐ）') !== false) {
-            $name2 = urlencode("パーツ-" . $value[0]);
+            $name2 = urlencode("parts-" . $value[0]);
         } else {
             $name2 = urlencode($name2);
         }
