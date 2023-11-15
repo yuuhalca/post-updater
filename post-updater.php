@@ -884,6 +884,7 @@ function MD_BlogDo()
         /**
          * データベース書き込みエリア
          */
+        /*
         $name2 = str_replace(array(" ", "　"), "-", $name);
         $name2 = str_replace("--", "-", $name2);
         if (mb_substr($name2, 0, 1) == "-") {
@@ -894,7 +895,8 @@ function MD_BlogDo()
             $name2 = urlencode("parts-" . $value[0]);
         } else {
             $name2 = urlencode($name2);
-        }
+        }*/
+        $name2 = $value[0];
         foreach ($wp_postmeta as $wp_postmetas) {
             if (!empty($wp_postmetas["post_id"])) {
                 if ($wp_postmetas["post_id"] == $data_final[$value[0]]["ID"] && $wp_postmetas["meta_key"] == "_wp_old_slug") {
