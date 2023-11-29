@@ -118,7 +118,7 @@ class Postupdater_admin
         add_menu_page(
             '商品情報同期システム',
             '商品情報同期',
-            'manage_options',
+            '9',
             'config_post_updater',
             [$this, 'show_config_updater'],
             'dashicons-format-gallery',
