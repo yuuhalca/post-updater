@@ -1029,7 +1029,7 @@ function MD_BlogDo()
                 $publish = "publish";
                 $ping_status = "closed";
             }else{
-                $publish = "trash";
+                $publish = "private";
                 $ping_status = "closed";
             }
             
