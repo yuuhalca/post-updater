@@ -1025,8 +1025,14 @@ function MD_BlogDo()
             $publish = "publish";
             $ping_status = "open";
         } else {
-            $publish = "private";
-            $ping_status = "closed";
+            if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
+                $publish = "publish";
+                $ping_status = "closed";
+            }else{
+                $publish = "trash";
+                $ping_status = "closed";
+            }
+            
         }
         $update[] = $db->updateDatabase("wp_posts", "'" . $publish . "'", "post_status", $data_final[$value[0]]["ID"], "ID");
         $update[] = $db->updateDatabase("wp_posts", "'" . $ping_status . "'", "ping_status", $data_final[$value[0]]["ID"], "ID");
