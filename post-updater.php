@@ -1025,7 +1025,7 @@ function MD_BlogDo()
             $publish = "publish";
             $ping_status = "open";
         } else {
-            $publish = "trash";
+            $publish = "private";
             $ping_status = "closed";
         }
         $update[] = $db->updateDatabase("wp_posts", "'" . $publish . "'", "post_status", $data_final[$value[0]]["ID"], "ID");
