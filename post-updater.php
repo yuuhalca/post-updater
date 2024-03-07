@@ -426,6 +426,8 @@ function MD_BlogDo()
                     $cate_flag = 6;
                 } elseif ($cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 336) {
                     $cate_flag = 7;
+                } elseif ($cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 1280) {
+                    $cate_flag = 8;
                 }
             }
         } else {
@@ -453,6 +455,8 @@ function MD_BlogDo()
                     $cate_flag = 6;
                 } elseif ($cate[$data_final[$value[0]]["ID"]][$i] == 336) {
                     $cate_flag = 7;
+                } elseif ($cate[$data_final[$value[0]]["ID"]][$i] == 1280) {
+                    $cate_flag = 8;
                 }
             }
         }
@@ -831,6 +835,30 @@ function MD_BlogDo()
                                                 <td style="text-align:center;font-weight:bold">{$spec6[$i]}</td>
                                                     <td style="text-align:center;">{$value[$i]}</td>
                                                 EOT;
+                            }
+                        }
+                        break;
+                    case 8: //TTTM
+                        if ($value[24] == "") {
+                        } else {
+                            if ($i == 24) {
+                                $postcontent .= <<<EOT
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="font-weight:bolder;background:lightgray;text-align:center;">
+                                        その他
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                EOT;
+                            }
+                        }
+                        if ($i == 24 || $i <= 16) {
+                            if ($value[$i] != "") {
+                                $postcontent .= <<<EOT
+                                            <td style="text-align:center;font-weight:bold">{$spec7[$i]}</td>
+                                                <td style="text-align:center;">{$value[$i]}</td>
+                                            EOT;
                             }
                         }
                         break;
