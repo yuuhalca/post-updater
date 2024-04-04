@@ -315,7 +315,7 @@ function MD_BlogDo()
     }
 
     $datetime = date("Y-m-d H:i:s");
-    $DBtest = $db->insert('cron_log',["id","name","datetime","error"],["NULL", '特殊文字変換テスト',$datetime,$debug]);
+    $DBtest = $db->insert('cron_log',["`id`","`name`","`datetime`","`error`"],[NULL, "'特殊文字変換テスト'","`{$datetime}`","'{$debug}'"]);
     echo "<pre id='DBTEST' style='display:none'>";
     var_dump($DBtest);
     echo "</pre>";

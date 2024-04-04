@@ -270,9 +270,8 @@ class DBconnection_X
     public function insert($tbl,$column,$value){
         $tbl = trim($tbl);
         $dbname = $this->dbname;
-        $column = "`".implode("`,`",$column)."`";
-        $value = "'".implode("','",$value)."'";
-        $value = str_replace("'NULL'","NULL",$value);
+        $column = implode(",",$column);
+        $value = implode(",",$value);
         $query = "INSERT INTO `{$dbname}`.`{$tbl}` ({$column}) VALUES ({$value})";
         if ($stmt = $this->link->prepare($query)) {
             $set = "成功しました:" . $query;
