@@ -994,6 +994,7 @@ function MD_BlogDo()
          */
         $special_cara = new CharacterEncoding;
         $value[7] = $special_cara->replaceMachineChar($value[7]);
+        $postcontent = $special_cara->replaceMachineChar($postcontent);
         if (SYNC_DESCRIPTION === true) {
             if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
                 $update[] = $db->updateDatabase("wp_posts", "", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
