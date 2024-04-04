@@ -305,15 +305,15 @@ function MD_BlogDo()
     $wp_term_relationships = $db->getDatabase("wp_term_relationships");
     $wp_wc_order_stats = $db->getDatabase("wp_wc_order_stats");
     $wp_wp_wc_order_product_lookup = $db->getDatabase("wp_wc_order_product_lookup");
-    $csv_data = $csv->readCSV();
+    $csv_data_pre = $csv->readCSV();
     $special_cara = new CharacterEncoding;
     $debug = "";
-    foreach($csv_data as $value){
+    foreach($csv_data_pre as $value){
         foreach($value as $val){
-            if(strpos($val, "32×7.5×6.5") !== false){
-                $debug .= $special_cara->replaceMachineChar($val)."\n";
-            }
+            $convert_chara[] = $special_cara->replaceMachineChar($val);
         }
+        $csv_data[] = $convert_chara;
+        unset($convert_chara);
     }
 
     $datetime = date("Y-m-d H:i:s");
