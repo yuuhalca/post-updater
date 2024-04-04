@@ -272,7 +272,7 @@ class DBconnection_X
         $dbname = $this->dbname;
         $column = implode(",",$column);
         $value = implode(",",$value);
-        $query = "INSERT INTO `{$dbname}`.`{$tbl}` ({$column}) VALUES ({$value})";
+        $query = "INSERT INTO `{$dbname}`.`{$tbl}` (`id`,{$column}) VALUES (NULL,{$value})";
         if ($stmt = $this->link->prepare($query)) {
             $set = "成功しました:" . $query;
         } else {
