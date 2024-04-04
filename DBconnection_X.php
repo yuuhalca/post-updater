@@ -279,7 +279,7 @@ class DBconnection_X
             $set = "失敗しました";
         }
         $stmt->execute();
-        return $set;
+        return $query;
     }
 
     public function FukusuUpdateDatabase($tbl, $change, $id, $where)
