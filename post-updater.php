@@ -305,22 +305,7 @@ function MD_BlogDo()
     $wp_term_relationships = $db->getDatabase("wp_term_relationships");
     $wp_wc_order_stats = $db->getDatabase("wp_wc_order_stats");
     $wp_wp_wc_order_product_lookup = $db->getDatabase("wp_wc_order_product_lookup");
-    $csv_data_pre = $csv->readCSV();
-    $special_cara = new CharacterEncoding;
-    $debug = "";
-    foreach($csv_data_pre as $value){
-        foreach($value as $val){
-            $convert_chara[] = $special_cara->replaceMachineChar($val);
-        }
-        $csv_data[] = $convert_chara;
-        unset($convert_chara);
-    }
-
-    $datetime = date("Y-m-d H:i:s");
-    $DBtest = $db->insert('cron_log',["`name`","`datetime`","`error`"],["'特殊文字変換テスト'","'{$datetime}'","'{$debug}'"]);
-    echo "<pre id='DBTEST' style='display:none'>";
-    var_dump($DBtest);
-    echo "</pre>";
+    $csv_data = $csv->readCSV();
     /**
      * 設定バリエーション
      */

@@ -344,19 +344,16 @@ class CSV_controller
     }
 
     public function readCSV(){
+        $convert = new CharacterEncoding;
 
         if(!$lock = $this->lock($this->filename))die("ロックに失敗しました");
 
-        while($line = fgetcsv($lock)){
-            $cm = mb_convert_encoding("㎝","SJIS-win","utf8");
-            foreach($line as $val){
-                if (strpos($val, $cm) !== false) {
-                    echo "<pre id='DBTEST2' style='display:none'>";
-                    var_dump(mb_convert_encoding($val, 'utf8', 'SJIS-win'));
-                    echo "</pre>";
-                }
-            }
+        while($line_pre = fgetcsv($lock)){
+            
             mb_convert_variables('utf8', array('SJIS-win'), $line);
+            foreach ($line_pre as $val) {
+                $line[] = $convert->replaceMachineChar($val);
+            }
             $csv_data[] = $line;
         }
         fclose($lock);
