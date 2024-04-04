@@ -305,7 +305,15 @@ function MD_BlogDo()
     $wp_term_relationships = $db->getDatabase("wp_term_relationships");
     $wp_wc_order_stats = $db->getDatabase("wp_wc_order_stats");
     $wp_wp_wc_order_product_lookup = $db->getDatabase("wp_wc_order_product_lookup");
-    $csv_data = $csv->readCSV();
+    $csv_data_pre = $csv->readCSV();
+    $special_cara = new CharacterEncoding;
+    foreach($csv_data_pre as $value){
+        foreach($value as $val){
+            $convert_chara[] = $special_cara->replaceMachineChar($val);
+        }
+        $csv_data[] = $convert_chara;
+        unset($convert_chara);
+    }
     /**
      * 設定バリエーション
      */

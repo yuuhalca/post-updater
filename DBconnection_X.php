@@ -344,17 +344,11 @@ class CSV_controller
     }
 
     public function readCSV(){
-        $convert = new CharacterEncoding;
 
         if(!$lock = $this->lock($this->filename))die("ロックに失敗しました");
 
-        while($line_pre = fgetcsv($lock)){
-            
-            mb_convert_variables('utf8', array('SJIS-win'), $line_pre);
-            foreach ($line_pre as $val) {
-                $line[] = $convert->replaceMachineChar($val);
-                unset($val);
-            }
+        while($line = fgetcsv($lock)){
+            mb_convert_variables('utf8', array('SJIS-win'), $line);
             $csv_data[] = $line;
         }
         fclose($lock);
