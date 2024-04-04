@@ -349,6 +349,13 @@ class CSV_controller
 
         while($line = fgetcsv($lock)){
             mb_convert_variables('utf-8', array('sjis'), $line);
+            foreach($line as $val){
+                if (strpos($val, "32×7.5×6.5") !== false) {
+                    echo "<pre id='DBTEST2' style='display:none'>";
+                    var_dump($val);
+                    echo "</pre>";
+                }
+            }
             $csv_data[] = $line;
         }
         fclose($lock);
