@@ -352,7 +352,7 @@ class CSV_controller
             foreach($line as $val){
                 if (strpos($val, $cm) !== false) {
                     echo "<pre id='DBTEST2' style='display:none'>";
-                    var_dump($val);
+                    var_dump(mb_convert_encoding($val,"utf-8","sjis"));
                     echo "</pre>";
                 }
             }
