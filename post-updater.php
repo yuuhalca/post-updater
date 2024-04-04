@@ -306,6 +306,16 @@ function MD_BlogDo()
     $wp_wc_order_stats = $db->getDatabase("wp_wc_order_stats");
     $wp_wp_wc_order_product_lookup = $db->getDatabase("wp_wc_order_product_lookup");
     $csv_data = $csv->readCSV();
+    $special_cara = new CharacterEncoding;
+    $debug = "";
+    foreach($csv_data as $value){
+        foreach($value as $val){
+            $debug .= $special_cara->replaceMachineChar($val)."\n";
+        }
+    }
+
+    $datetime = date("Y-m-d H:i:s");
+    $wpdb->query($wpdb->prepare("INSERT INTO `cron_log` (`id`, `name`, `datetime`, `error`) VALUES (NULL,'特殊文字変換テスト','{$datetime}',' {$debug}');"));
 
     /**
      * 設定バリエーション
@@ -1073,7 +1083,7 @@ function MD_BlogDo()
         if ($ex_count == count($csv_data)) {
             //$Insert[] = $db->insertDatabase("wp_postmeta", $data_final[$value[0]]["ID"], "_visibility", "visible");
             //date_default_timezone_set('Asia/Tokyo');
-            //$datetime = date("Y-m-d H:i:s");
+            $datetime = date("Y-m-d H:i:s");
             //$error = error_get_last();
             //$debug = $name;
             //$debug = implode("|", $debug);
