@@ -348,9 +348,8 @@ class CSV_controller
         if(!$lock = $this->lock($this->filename))die("ロックに失敗しました");
 
         while($line = fgetcsv($lock)){
-            
             foreach($line as $val){
-                if (strpos($val, "32×7.5×6.5") !== false) {
+                if (strpos($val, "㎝") !== false) {
                     echo "<pre id='DBTEST2' style='display:none'>";
                     var_dump($val);
                     echo "</pre>";
