@@ -348,15 +348,15 @@ class CSV_controller
         if(!$lock = $this->lock($this->filename))die("ロックに失敗しました");
 
         while($line = fgetcsv($lock)){
-            $cm = mb_convert_encoding("㎝","sjis","utf-8");
+            $cm = mb_convert_encoding("㎝","SJIS-win","utf8");
             foreach($line as $val){
                 if (strpos($val, $cm) !== false) {
                     echo "<pre id='DBTEST2' style='display:none'>";
-                    var_dump(mb_convert_encoding($val,"utf-8","sjis"));
+                    var_dump(mb_convert_encoding($val, 'utf8', 'SJIS-win'));
                     echo "</pre>";
                 }
             }
-            mb_convert_variables('utf-8', array('sjis'), $line);
+            mb_convert_variables('utf8', array('SJIS-win'), $line);
             $csv_data[] = $line;
         }
         fclose($lock);
