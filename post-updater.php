@@ -908,6 +908,9 @@ function MD_BlogDo()
 
         $postcontent .= "</p>";
 
+        $special_cara = new CharacterEncoding;
+        $postcontent = $special_cara->replaceMachineChar($postcontent);
+
         //description作成終了///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -992,9 +995,7 @@ function MD_BlogDo()
         /**
          * シンプル商品の説明を追加
          */
-        $special_cara = new CharacterEncoding;
-        $value[7] = $special_cara->replaceMachineChar($value[7]);
-        $postcontent = $special_cara->replaceMachineChar($postcontent);
+        
         if (SYNC_DESCRIPTION === true) {
             if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
                 $update[] = $db->updateDatabase("wp_posts", "", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
