@@ -908,8 +908,7 @@ function MD_BlogDo()
 
         $postcontent .= "</p>";
 
-        $special_cara = new CharacterEncoding;
-        $postcontent = $special_cara->replaceMachineChar($postcontent);
+
 
         //description作成終了///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
