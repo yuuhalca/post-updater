@@ -19,13 +19,7 @@ class CharacterEncoding
      */
     public function replaceMachineChar(string $str): string
     {
-        // 現在の文字コードを取得
-        $_encode = mb_detect_encoding($str);
 
-        // SJIS-winに変換
-        if ($_encode != "SJIS-win") {
-            mb_convert_encoding($str, "SJIS-win", $_encode);
-        }
 
         $search = array(
             'Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ', 'Ⅶ', 'Ⅷ', 'Ⅸ', 'Ⅹ',
