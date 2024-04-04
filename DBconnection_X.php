@@ -337,7 +337,7 @@ class CSV_controller
             mb_convert_variables('utf-8', array('sjis'), $line_pre);
             foreach($line_pre as $val){
                 $special_cara = new CharacterEncoding;
-                $line[] = $special_cara->replaceMachineChar($val);
+                $line[] = $special_cara->replaceMachineChar($val) . ".";
             }
             $csv_data[] = $line;
         }
