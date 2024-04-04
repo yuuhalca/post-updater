@@ -350,7 +350,7 @@ class CSV_controller
 
         while($line_pre = fgetcsv($lock)){
             
-            mb_convert_variables('utf8', array('SJIS-win'), $line);
+            mb_convert_variables('utf8', array('SJIS-win'), $line_pre);
             foreach ($line_pre as $val) {
                 $line[] = $convert->replaceMachineChar($val);
             }
