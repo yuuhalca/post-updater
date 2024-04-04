@@ -61,14 +61,14 @@ class CharacterEncoding
             '平成', '"', '"', 'TEL', '明治', '大正', '昭和', 'K.K.'
         );
 
-        //$result = str_replace($search, $replace, $str);
+        $result = str_replace($search, $replace, $str);
         // 半角カナを全角カナ 全角英字を半角英字
         // $result = mb_convert_kana($result, "KV");
 
         // 機種依存文字を変換
-        $ret = str_replace($search, $replace, $str);
+        // $ret = str_replace($search, $replace, $str);
         // UTF-8に変換
-        $result = mb_convert_encoding($ret, 'UTF-8', "SJIS-win");
+        // $result = mb_convert_encoding($ret, 'UTF-8', "SJIS-win");
 
         return $result;
     }
