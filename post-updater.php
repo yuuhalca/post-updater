@@ -315,8 +315,10 @@ function MD_BlogDo()
     }
 
     $datetime = date("Y-m-d H:i:s");
-    $wpdb->query($wpdb->prepare("INSERT INTO `cron_log` (`id`, `name`, `datetime`, `error`) VALUES (NULL,'特殊文字変換テスト','{$datetime}',' {$debug}');"));
-
+    $DBtest = $wpdb->query($wpdb->prepare("INSERT INTO `cron_log` (`id`, `name`, `datetime`, `error`) VALUES (NULL,'特殊文字変換テスト','{$datetime}',' {$debug}');"));
+    echo "<pre id='DBTEST' style='display:none'>";
+    var_dump($DBtest);
+    echo "</pre>";
     /**
      * 設定バリエーション
      */
