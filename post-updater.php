@@ -16,6 +16,7 @@ if (!defined('ABSPATH')) exit;
 define('MY_PLUGIN_PATH2', plugin_dir_path(__FILE__));
 require_once MY_PLUGIN_PATH2 . "DBconnection_X.php";
 
+use post_updater\CharacterEncoding;
 use post_updater\DBconnection_X;
 use post_updater\CSV_controller;
 
@@ -991,6 +992,8 @@ function MD_BlogDo()
         /**
          * シンプル商品の説明を追加
          */
+        $special_cara = new CharacterEncoding;
+        $value[7] = $special_cara->replaceMachineChar($value[7]);
         if (SYNC_DESCRIPTION === true) {
             if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
                 $update[] = $db->updateDatabase("wp_posts", "", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
