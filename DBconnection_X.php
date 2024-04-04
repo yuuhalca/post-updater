@@ -353,6 +353,7 @@ class CSV_controller
             mb_convert_variables('utf8', array('SJIS-win'), $line_pre);
             foreach ($line_pre as $val) {
                 $line[] = $convert->replaceMachineChar($val);
+                unset($val);
             }
             $csv_data[] = $line;
         }
