@@ -310,7 +310,7 @@ function MD_BlogDo()
     $debug = "";
     foreach($csv_data as $value){
         foreach($value as $val){
-            if(strpos($value,"㎝")){
+            if(strpos($value,"㎝") !== false){
                 $debug .= $special_cara->replaceMachineChar($val)."\n";
             }
         }
