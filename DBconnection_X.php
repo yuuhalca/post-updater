@@ -333,12 +333,8 @@ class CSV_controller
 
         if(!$lock = $this->lock($this->filename))die("ロックに失敗しました");
 
-        while($line_pre = fgetcsv($lock)){
-            mb_convert_variables('utf-8', array('sjis'), $line_pre);
-            foreach($line_pre as $val){
-                $special_cara = new CharacterEncoding;
-                $line[] = $special_cara->replaceMachineChar($val) . ".";
-            }
+        while($line = fgetcsv($lock)){
+            mb_convert_variables('utf-8', array('sjis'), $line);
             $csv_data[] = $line;
         }
         fclose($lock);
