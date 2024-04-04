@@ -267,6 +267,21 @@ class DBconnection_X
         return $set;
 
     }
+    public function insert($tbl,$column,$value){
+        $tbl = trim($tbl);
+        $dbname = $this->dbname;
+        $column = "`".implode("`,`",$column)."`";
+        $value = "'".implode("','",$value)."'";
+        $value = str_replace("'NULL'","NULL",$value);
+        $query = "INSERT INTO `{$dbname}`.`{$tbl}` ({$column}) VALUES ({$value})";
+        if ($stmt = $this->link->prepare($query)) {
+            $set = "成功しました:" . $query;
+        } else {
+            $set = "失敗しました";
+        }
+        $stmt->execute();
+        return $set;
+    }
 
     public function FukusuUpdateDatabase($tbl, $change, $id, $where)
     {
