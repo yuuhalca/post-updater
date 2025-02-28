@@ -1014,6 +1014,7 @@ function MD_BlogDo()
             if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
                 $update[] = $db->updateDatabase("wp_posts", "", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
                 $update[] = $db->updateDatabase("wp_posts", "'" . $haiban_v . custom_excerpt($value[7]) . "'", "post_excerpt", $simpleorvariable[$data_final[$value[0]]["ID"]][1], "ID"); //親商品
+                wp_update_post( array( 'ID' => $data_final[$value[0]]["ID"] ) );
             } else {
                 $update[] = $db->updateDatabase("wp_posts", "'" . $haiban . custom_excerpt($value[7] . $postcontent) . "'", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
             }
@@ -1081,7 +1082,7 @@ function MD_BlogDo()
         $update[] = $db->updateDatabase("wp_posts", "'" . $publish . "'", "post_status", $data_final[$value[0]]["ID"], "ID");
         $update[] = $db->updateDatabase("wp_posts", "'" . $ping_status . "'", "ping_status", $data_final[$value[0]]["ID"], "ID");
         
-        wp_update_post( array( 'ID' => $data_final[$value[0]]["ID"] ) );
+        
 
         $pre_parent = $simpleorvariable[$data_final[$value[0]]["ID"]][1];
 
