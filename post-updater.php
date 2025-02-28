@@ -1012,7 +1012,7 @@ function MD_BlogDo()
         
         if (SYNC_DESCRIPTION === true) {
             if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
-                $update[] = $db->updateDatabase("wp_posts", "", "post_excerpt", custom_excerpt($data_final[$value[0]]["ID"]）, "ID");
+                $update[] = $db->updateDatabase("wp_posts", "", "post_excerpt", custom_excerpt($data_final[$value[0]]["ID"]), "ID");
                 $update[] = $db->updateDatabase("wp_posts", "'" . $haiban_v . $value[7] . "'", "post_excerpt", custom_excerpt($simpleorvariable[$data_final[$value[0]]["ID"]][1]）), "ID"); //親商品
             } else {
                 $update[] = $db->updateDatabase("wp_posts", "'" . $haiban . $value[7] . $postcontent . "'", "post_excerpt", custom_excerpt($data_final[$value[0]]["ID"]), "ID");
