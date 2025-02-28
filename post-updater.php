@@ -1014,7 +1014,7 @@ function MD_BlogDo()
             if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
                 $update[] = $db->updateDatabase("wp_posts", "", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
                 $update[] = $db->updateDatabase("wp_posts", "'" . $haiban_v . custom_excerpt($value[7]) . "'", "post_excerpt", $simpleorvariable[$data_final[$value[0]]["ID"]][1], "ID"); //親商品
-                wp_update_post( array( 'ID' => $data_final[$value[0]]["ID"] ) );
+                wp_update_post( array( 'ID' => $simpleorvariable[$data_final[$value[0]]["ID"]][1] ) );
             } else {
                 $update[] = $db->updateDatabase("wp_posts", "'" . $haiban . custom_excerpt($value[7] . $postcontent) . "'", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
             }
