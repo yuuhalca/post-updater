@@ -1080,6 +1080,7 @@ function MD_BlogDo()
         }
         $update[] = $db->updateDatabase("wp_posts", "'" . $publish . "'", "post_status", $data_final[$value[0]]["ID"], "ID");
         $update[] = $db->updateDatabase("wp_posts", "'" . $ping_status . "'", "ping_status", $data_final[$value[0]]["ID"], "ID");
+        wc_delete_product_transients( $data_final[$value[0]]["ID"] );
         $pre_parent = $simpleorvariable[$data_final[$value[0]]["ID"]][1];
 
         /*バグフィックス
