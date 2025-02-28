@@ -62,6 +62,14 @@ function MD_BlogCronStop()
 }
 register_deactivation_hook(__FILE__, 'MD_BlogCronStop');
 
+function custom_excerpt($text, $length = 100) {
+    if (mb_strlen($text, 'UTF-8') > $length) {
+        return mb_substr($text, 0, $length, 'UTF-8') . '[...]';
+    } else {
+        return $text;
+    }
+}
+
 add_filter('cron_schedules', 'my_add_intervals'); // 「cron_schedules」フックを使ってスケジュール追加
 function my_add_intervals($schedules)
 {
@@ -1004,10 +1012,10 @@ function MD_BlogDo()
         
         if (SYNC_DESCRIPTION === true) {
             if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
-                $update[] = $db->updateDatabase("wp_posts", "", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
-                $update[] = $db->updateDatabase("wp_posts", "'" . $haiban_v . $value[7] . "'", "post_excerpt", $simpleorvariable[$data_final[$value[0]]["ID"]][1], "ID"); //親商品
+                $update[] = $db->updateDatabase("wp_posts", "", "post_excerpt", custom_excerpt($data_final[$value[0]]["ID"]）, "ID");
+                $update[] = $db->updateDatabase("wp_posts", "'" . $haiban_v . $value[7] . "'", "post_excerpt", custom_excerpt($simpleorvariable[$data_final[$value[0]]["ID"]][1]）), "ID"); //親商品
             } else {
-                $update[] = $db->updateDatabase("wp_posts", "'" . $haiban . $value[7] . $postcontent . "'", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
+                $update[] = $db->updateDatabase("wp_posts", "'" . $haiban . $value[7] . $postcontent . "'", "post_excerpt", custom_excerpt($data_final[$value[0]]["ID"]), "ID");
             }
             if (SYNC_PRICE === true) {
                 $update[] = $db->updateDatabase("wp_postmeta", "'" . $value[39] . "'", "meta_value", [$data_final[$value[0]]["ID"], "_price"], ["post_id", "meta_key"]);
