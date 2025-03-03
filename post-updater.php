@@ -419,7 +419,7 @@ function MD_BlogDo()
         $cate_flag = 99; //初期設定
         if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
             for ($i = 0; $i < count($cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]]); $i++) {
-                if ($cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 320 || $cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 332 || $cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 389 || $cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 385 || $cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 333) {
+                if ($cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 320 || $cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 332 || $cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 389 || $cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 385 || $cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 333 || $cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 1420) {
                     $cate_flag = 0;
                     continue;
                 } elseif ($cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 334 || $cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 387 || $cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 368 || $cate[$simpleorvariable[$data_final[$value[0]]["ID"]][1]][$i] == 377) {
