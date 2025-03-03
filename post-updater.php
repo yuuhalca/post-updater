@@ -448,7 +448,7 @@ function MD_BlogDo()
             }
         } else {
             for ($i = 0; $i < count($cate[$data_final[$value[0]]["ID"]]); $i++) {
-                if ($cate[$data_final[$value[0]]["ID"]][$i] == 320 || $cate[$data_final[$value[0]]["ID"]][$i] == 332 || $cate[$data_final[$value[0]]["ID"]][$i] == 389 || $cate[$data_final[$value[0]]["ID"]][$i] == 385 || $cate[$data_final[$value[0]]["ID"]][$i] == 333) {
+                if ($cate[$data_final[$value[0]]["ID"]][$i] == 320 || $cate[$data_final[$value[0]]["ID"]][$i] == 332 || $cate[$data_final[$value[0]]["ID"]][$i] == 389 || $cate[$data_final[$value[0]]["ID"]][$i] == 385 || $cate[$data_final[$value[0]]["ID"]][$i] == 333 || $cate[$data_final[$value[0]]["ID"]][$i] == 1420) {
                     $cate_flag = 0;
                     continue;
                 } elseif ($cate[$data_final[$value[0]]["ID"]][$i] == 334 || $cate[$data_final[$value[0]]["ID"]][$i] == 387 || $cate[$data_final[$value[0]]["ID"]][$i] == 368 || $cate[$data_final[$value[0]]["ID"]][$i] == 377) {
@@ -1014,7 +1014,7 @@ function MD_BlogDo()
             if ($simpleorvariable[$data_final[$value[0]]["ID"]][0] == "product_variation") {
                 $update[] = $db->updateDatabase("wp_posts", "", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
                 $update[] = $db->updateDatabase("wp_posts", "'" . $haiban_v . $value[7] . "'", "post_excerpt", $simpleorvariable[$data_final[$value[0]]["ID"]][1], "ID"); //親商品
-                wp_update_post( array( 'ID' => $simpleorvariable[$data_final[$value[0]]["ID"]][1] ) );
+                //wp_update_post( array( 'ID' => $simpleorvariable[$data_final[$value[0]]["ID"]][1] ) );
             } else {
                 $update[] = $db->updateDatabase("wp_posts", "'" . $haiban . $value[7] . $postcontent . "'", "post_excerpt", $data_final[$value[0]]["ID"], "ID");
             }
