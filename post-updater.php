@@ -403,7 +403,7 @@ function MD_BlogDo()
         $name = implode(" ", $name);
 
         // フラグを分割して順番に適用
-        $name = mb_convert_kana($name, "H");  // 半角カタカナに変換
+        //$name = mb_convert_kana($name, "H");  // 半角カタカナに変換
         $name = mb_convert_kana($name, "KV");  // 全角カタカナに変換
         $name = mb_convert_kana($name, "A");  // 全角英数字を半角に変換
 
